@@ -31,9 +31,16 @@ module Jenkins
         date = Time.at(job_json_obj['timestamp']/1000).to_datetime
         date_str = date.strftime("%m/%d/%Y at %I:%M%p")
         progress = case job_json_obj['result']
-           when nil then 0.5
+           when nil then
+              #maybe negative if something wrong with locale (which isnt case of unixtime)
+              in_progress_secconds = Time.now.to_i - job_json_obj['timestamp']/1000
+              estimated_duration = job_json_obj['estimatedDuration']/1000
+              progress = in_progress_secconds/[estimated_duration, 1].max
+              puts "Progress = #{progress}"
+              progress
            when "SUCCESS" then 100
            when "FAILURE" then -1
+           when "UNSTABLE" then -1      
            else raise "unexpected result = #{job_json_obj['result']}"
         end
 
