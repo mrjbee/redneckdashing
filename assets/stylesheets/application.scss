@@ -5,8 +5,9 @@
 // ----------------------------------------------------------------------------
 // Sass declarations
 // ----------------------------------------------------------------------------
-$background-color: #222;
 $transperent-background-color: rgba(255, 255, 255, 0.0);
+$background-color: $transperent-background-color;
+$background-color-opaque: #040609;
 $text-color: #fff;
 
 $background-warning-color-1: #e82711;
@@ -37,6 +38,13 @@ $text-danger-color: #fff;
 //-----------------------------------------------------------------------------
 .welcome {
   background-color: $background-color;
+  .title {
+    text-shadow: 10px 10px 3px rgb(0,0,0);
+  }
+  h3 {
+    font-size: 17px;
+    text-shadow: 7px 7px 2px rgb(0,0,0);
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -50,10 +58,12 @@ html {
 
 body {
   margin: 0;
-  background-color: $background-color;
+  background-color: $background-color-opaque;
   font-size: 20px;
   color: $text-color;
   font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-image: url("background.png");
+  background-size: cover;
 }
 
 b, strong {
