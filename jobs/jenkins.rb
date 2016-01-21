@@ -1,9 +1,22 @@
 require_relative '../lib/jenkins.rb'
 
-#SCHEDULER.every '2s' do
-#end
-# https://ci.jenkins-ci.org/view/All/job/infra_update_center_v3/lastBuild/api/json
-server_url = "https://ci.jenkins-ci.org"
-job_name = "infra_accountapp"
-jobDetails = Jenkins.lastJobStatus(server_url, job_name)
-puts "Just fetched job = #{jobDetails} using url=#{server_url}"
+job_mapping = {
+  'taskservice' => {
+    :server => 'https://ci.jenkins-ci.org',
+    :title => 'infra_accountapp',
+    :update => '30s'
+  },
+  'upstream' => {
+    :server => 'https://builds.apache.org',
+    :title => 'Hadoop-ATS-v2',
+    :update => '30s'
+  }
+}
+
+job_mapping.each do |title, job|
+  SCHEDULER.every job[:update], :first_in => 0 do
+    current_job_details = Jenkins.lastJobStatus(job[:server], job[:title])
+    puts "Just fetched job = #{current_job_details}"
+    send_event( title,   { value: current_job_details.progress_human })
+  end
+end
