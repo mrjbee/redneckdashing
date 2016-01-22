@@ -1,25 +1,13 @@
 require_relative '../lib/jenkins.rb'
+require_relative '../lib/setup.rb'
 
-job_mapping = {
-  'taskservice' => {
-    :server => 'https://ci.jenkins-ci.org',
-    :title => 'infra_backend-war-size-tracker',
-    :update => '5s'
-  },
-  'upstream' => {
-    :server => 'https://builds.apache.org',
-    :title => 'Hadoop-ATS-v2',
-    :update => '30s'
-  }
-}
-
-job_mapping.each do |title, job|
+Setup.jenkins_jobs.each do |title, job|
 
   last_job_health_state = -100
 
-  SCHEDULER.every job[:update], :first_in => rand(5)  do
+  SCHEDULER.every job[:update], :first_in => rand(15)  do
     current_job_details = Jenkins.lastJobStatus(job[:server], job[:title])
-    puts "Just fetched job = #{current_job_details}"
+    puts "[#{Time.now.strftime("%d/%m/%Y %H:%M")}] Just fetched job = #{current_job_details}"
     state = 0
 
     if current_job_details.is_fail

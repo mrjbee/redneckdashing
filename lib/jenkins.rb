@@ -68,6 +68,7 @@ module Jenkins
            when "SUCCESS" then 1.0
            when "FAILURE" then -1.0
            when "UNSTABLE" then -1.0
+           when "ABORTED" then -1.0     
            else raise "unexpected result = #{job_json_obj['result']}"
         end
 

@@ -1,0 +1,16 @@
+module Setup
+   def Setup.jenkins_jobs
+     {
+       'job widget id' => {
+         :server => 'http://{your build server}:8080',
+         :title => 'job title',
+         :update => '30s'
+     },
+
+    'job widget id 2' => {
+         :server => 'http://{your build server}:8080',
+         :title => 'job title 2',
+         :update => '30s'
+     }
+   end
+end
