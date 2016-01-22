@@ -1,22 +1,22 @@
 ---
 valuation: |+
-  data: {"current":99,"last":79,"id":"valuation","updatedAt":1453420674}
+  data: {"current":30,"last":96,"id":"valuation","updatedAt":1453425765}
 
 karma: |+
-  data: {"current":154919,"last":196265,"id":"karma","updatedAt":1453420674}
+  data: {"current":152094,"last":121163,"id":"karma","updatedAt":1453425765}
 
 synergy: |+
-  data: {"value":57,"id":"synergy","updatedAt":1453420674}
+  data: {"value":34,"id":"synergy","updatedAt":1453425765}
 
 buzzwords: |+
-  data: {"items":[{"label":"Turn-key","value":3},{"label":"Paradigm shift","value":3},{"label":"Enterprise","value":1},{"label":"Pivoting","value":3},{"label":"Exit strategy","value":1},{"label":"Synergy","value":2},{"label":"Streamlininess","value":2},{"label":"Web 2.0","value":1},{"label":"Leverage","value":1}],"id":"buzzwords","updatedAt":1453420674}
+  data: {"items":[{"label":"Web 2.0","value":4},{"label":"Leverage","value":11},{"label":"Pivoting","value":8},{"label":"Paradigm shift","value":4},{"label":"Turn-key","value":14},{"label":"Streamlininess","value":3},{"label":"Enterprise","value":12},{"label":"Synergy","value":6},{"label":"Exit strategy","value":11}],"id":"buzzwords","updatedAt":1453425765}
 
 convergence: |+
-  data: {"points":[{"x":17,"y":19},{"x":18,"y":36},{"x":19,"y":29},{"x":20,"y":38},{"x":21,"y":9},{"x":22,"y":40},{"x":23,"y":22},{"x":24,"y":26},{"x":25,"y":34},{"x":26,"y":18}],"id":"convergence","updatedAt":1453420672}
+  data: {"points":[{"x":74,"y":8},{"x":75,"y":29},{"x":76,"y":27},{"x":77,"y":37},{"x":78,"y":21},{"x":79,"y":32},{"x":80,"y":9},{"x":81,"y":27},{"x":82,"y":9},{"x":83,"y":36}],"id":"convergence","updatedAt":1453425765}
 
 taskservice: |+
-  data: {"value":0,"id":"taskservice","updatedAt":1453420671}
+  data: {"value":0,"startAtValue":"21 Jan 2016 at 07:44PM","urlValue":"https://ci.jenkins-ci.org/job/infra_accountapp/22/","id":"taskservice","updatedAt":1453425739}
 
 upstream: |+
-  data: {"value":33,"id":"upstream","updatedAt":1453420671}
+  data: {"value":60,"startAtValue":"22 Jan 2016 at 12:12AM","urlValue":"https://builds.apache.org/job/Hadoop-ATS-v2/2/","id":"upstream","updatedAt":1453425740}
 

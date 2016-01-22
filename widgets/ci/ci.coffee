@@ -2,6 +2,10 @@ class Dashing.Ci extends Dashing.Widget
 
   @accessor 'value', Dashing.AnimatedValue
 
+
+  @accessor 'startAtVal', ->
+    "#{@get('startAtValue')}"
+
   constructor: ->
     super
     @observe 'value', (value) ->

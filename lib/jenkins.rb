@@ -24,11 +24,19 @@ class JenkinsJobStatus
   def is_over_time
      @progress > 1
   end
+
+  def url
+     @url
+  end
+
   def progress_human
     progress = (@progress * 100).round
     progress = [100, progress].min
     progress = [0, progress].max
     progress
+  end
+  def start_at
+    @timestamp_human_str
   end
 end
 
@@ -48,7 +56,7 @@ module Jenkins
         job_json_obj = JSON.parse(response.body)
 
         date = Time.at(job_json_obj['timestamp']/1000).to_datetime
-        date_str = date.strftime("%m/%d/%Y at %I:%M%p")
+        date_str = date.strftime("%d %b %Y at %I:%M%p")
         progress = case job_json_obj['result']
            when nil then
               #maybe negative if something wrong with locale (which isnt case of unixtime)

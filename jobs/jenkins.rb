@@ -17,6 +17,9 @@ job_mapping.each do |title, job|
   SCHEDULER.every job[:update], :first_in => 0 do
     current_job_details = Jenkins.lastJobStatus(job[:server], job[:title])
     puts "Just fetched job = #{current_job_details}"
-    send_event( title,   { value: current_job_details.progress_human })
+    send_event( title,   {
+      value: current_job_details.progress_human,
+      startAtValue: current_job_details.start_at,
+      urlValue: current_job_details.url })
   end
 end
