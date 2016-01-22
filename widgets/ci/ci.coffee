@@ -2,7 +2,6 @@ class Dashing.Ci extends Dashing.Widget
 
   @accessor 'value', Dashing.AnimatedValue
 
-
   @accessor 'startAtVal', ->
     "Started at #{@get('startAtValue')}"
 
@@ -12,20 +11,39 @@ class Dashing.Ci extends Dashing.Widget
       $(@node).find(".ci").val(value).trigger('change')
 
   ready: ->
+    $(@node).attr('lastHealthStateValue', 0);
     ci = $(@node).find(".ci")
     ci.attr("data-bgcolor", ci.css("background-color"))
     ci.attr("data-fgcolor", ci.css("color"))
     ci.knob()
 
   onData: (data) ->
-    console.log(data.healthStateValue)
-    $(@node).fadeOut =>
-      if data.healthStateValue == 0
-        $(@node).css('background-color', '#9c4274')
+    actualValue = parseInt(data.healthStateValue)
+    wasValue = parseInt($(@node).attr('lastHealthStateValue'))
+    changedSinceLastTime = (wasValue != actualValue)
+    healthStateValue = data.healthStateValue
+
+    $(@node).attr('lastHealthStateValue',healthStateValue);
+
+    if (changedSinceLastTime)
+      color = '#9c4274'
         #when failed
-      if data.healthStateValue == -1
-        $(@node).css('background-color', '#4b4b4b')
+      if actualValue == -1
+        color = '#4b4b4b'
         #when over running
-      if data.healthStateValue == -2
-        $(@node).css('background-color', '#64334f')
-    $(@node).fadeIn()
+      if actualValue == -2
+        color = '#64334f'
+
+      $(@node).fadeOut =>
+        $(@node).css('background-color', color)
+      $(@node).fadeIn()
+    else
+      color = '#9c4274'
+        #when failed
+      if actualValue == -1
+        color = '#4b4b4b'
+        #when over running
+      if actualValue == -2
+        color = '#64334f'
+
+      $(@node).css('background-color', color)

@@ -1,22 +1,22 @@
 ---
 valuation: |+
-  data: {"current":51,"last":19,"id":"valuation","updatedAt":1453428093}
+  data: {"current":60,"last":29,"id":"valuation","updatedAt":1453457581}
 
 karma: |+
-  data: {"current":48816,"last":41589,"id":"karma","updatedAt":1453428093}
+  data: {"current":45739,"last":189575,"id":"karma","updatedAt":1453457581}
 
 synergy: |+
-  data: {"value":66,"id":"synergy","updatedAt":1453428093}
+  data: {"value":59,"id":"synergy","updatedAt":1453457581}
 
 buzzwords: |+
-  data: {"items":[{"label":"Exit strategy","value":18},{"label":"Pivoting","value":21},{"label":"Enterprise","value":20},{"label":"Leverage","value":22},{"label":"Paradigm shift","value":29},{"label":"Streamlininess","value":18},{"label":"Web 2.0","value":11},{"label":"Synergy","value":6},{"label":"Turn-key","value":18}],"id":"buzzwords","updatedAt":1453428093}
+  data: {"items":[{"label":"Exit strategy","value":28},{"label":"Synergy","value":23},{"label":"Turn-key","value":29},{"label":"Paradigm shift","value":22},{"label":"Enterprise","value":1},{"label":"Pivoting","value":13},{"label":"Web 2.0","value":2},{"label":"Leverage","value":2},{"label":"Streamlininess","value":16}],"id":"buzzwords","updatedAt":1453457581}
 
 convergence: |+
-  data: {"points":[{"x":434,"y":9},{"x":435,"y":34},{"x":436,"y":37},{"x":437,"y":36},{"x":438,"y":42},{"x":439,"y":44},{"x":440,"y":23},{"x":441,"y":4},{"x":442,"y":32},{"x":443,"y":10}],"id":"convergence","updatedAt":1453428093}
+  data: {"points":[{"x":797,"y":30},{"x":798,"y":25},{"x":799,"y":13},{"x":800,"y":48},{"x":801,"y":24},{"x":802,"y":42},{"x":803,"y":31},{"x":804,"y":35},{"x":805,"y":46},{"x":806,"y":35}],"id":"convergence","updatedAt":1453457581}
 
 taskservice: |+
-  data: {"value":0,"startAtValue":"21 Jan 2016 at 07:44PM","urlValue":"https://ci.jenkins-ci.org/job/infra_accountapp/22/","healthStateValue":-1,"id":"taskservice","updatedAt":1453428082}
+  data: {"value":27,"startAtValue":"22 Jan 2016 at 07:31AM","urlValue":"https://ci.jenkins-ci.org/job/infra_backend-war-size-tracker/1192/","healthStateValue":0,"healthStateChangedValue":false,"id":"taskservice","updatedAt":1453457578}
 
 upstream: |+
-  data: {"value":72,"startAtValue":"22 Jan 2016 at 12:12AM","urlValue":"https://builds.apache.org/job/Hadoop-ATS-v2/2/","healthStateValue":0,"id":"upstream","updatedAt":1453428082}
+  data: {"value":0,"startAtValue":"22 Jan 2016 at 12:12AM","urlValue":"https://builds.apache.org/job/Hadoop-ATS-v2/2/","healthStateValue":-1,"healthStateChangedValue":false,"id":"upstream","updatedAt":1453457555}
 
