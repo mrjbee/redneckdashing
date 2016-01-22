@@ -4,7 +4,7 @@ class Dashing.Ci extends Dashing.Widget
 
 
   @accessor 'startAtVal', ->
-    "#{@get('startAtValue')}"
+    "Started at #{@get('startAtValue')}"
 
   constructor: ->
     super
