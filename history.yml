@@ -1,0 +1,8 @@
+---
+valuation: ''
+upstream: |+
+  data: {"value":100,"startAtValue":"25 Jan 2016 at 01:44 PM","urlValue":"http://build7:8080/job/upstream-master-heartbeat/1700/","healthStateValue":0,"healthStateChangedValue":true,"id":"upstream","updatedAt":1453733180}
+
+taskservice: |+
+  data: {"value":100,"startAtValue":"25 Jan 2016 at 03:45 PM","urlValue":"http://build7:8080/job/task-master-heartbeat/196/","healthStateValue":0,"healthStateChangedValue":true,"id":"taskservice","updatedAt":1453733181}
+
