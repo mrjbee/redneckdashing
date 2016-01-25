@@ -55,8 +55,9 @@ module Jenkins
         response = http.request(request)
         job_json_obj = JSON.parse(response.body)
 
-        date = Time.at(job_json_obj['timestamp']/1000).to_datetime
-        date_str = date.strftime("%d %b %Y at %I:%M%p")
+        local_offset = Time.now.getlocal.utc_offset/60/60
+        date = (Time.at(job_json_obj['timestamp']/1000)) + Rational(local_offset, 24)
+        date_str = date.strftime("%d %b %Y at %I:%M %p")
         progress = case job_json_obj['result']
            when nil then
               #maybe negative if something wrong with locale (which isnt case of unixtime)
@@ -68,7 +69,7 @@ module Jenkins
            when "SUCCESS" then 1.0
            when "FAILURE" then -1.0
            when "UNSTABLE" then -1.0
-           when "ABORTED" then -1.0     
+           when "ABORTED" then -1.0
            else raise "unexpected result = #{job_json_obj['result']}"
         end
 
