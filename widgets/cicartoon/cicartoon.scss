@@ -1,0 +1,38 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color:  #4fc2f4;
+
+$title-color:       rgba(255, 255, 255, 0.7);
+$moreinfo-color:     #1f769a;
+$status-color:    #1f769a;
+
+
+// ----------------------------------------------------------------------------
+// Widget-text styles
+// ----------------------------------------------------------------------------
+.widget-cicartoon {
+
+  background-color: $background-color;
+
+  img {
+    float: left;
+  }
+  h4 {
+    color: $status-color;
+  }
+
+  .more-info {
+    color: $moreinfo-color;
+  }
+
+  .updated-at {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+
+  &.large h3 {
+    font-size: 65px;
+  }
+
+}

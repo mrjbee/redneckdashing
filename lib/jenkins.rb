@@ -7,18 +7,27 @@ require 'json'
 require 'openssl'
 
 class JenkinsJobStatus
-  def initialize(display_name, timestamp_human_str, progress, url)
-    @display_name=display_name
-    @timestamp_human_str=timestamp_human_str
-    @progress=progress
+  def initialize(original_name, display_name, timestamp_human_str, progress, url)
+    @original_name = original_name
+    @display_name = display_name
+    @timestamp_human_str = timestamp_human_str
+    @progress = progress
     @url = url
   end
   def to_s # called with print / puts
-    "Job name = #{@display_name}, timestamp = #{@timestamp_human_str}, progress = #{@progress}, url = #{@url} "
+    "Job name = #{job_full_name}, timestamp = #{@timestamp_human_str}, progress = #{@progress}, url = #{@url} "
+  end
+
+  def job_full_name
+    "#{@original_name} (#{@display_name})"
   end
 
   def is_fail
      @progress == -1
+  end
+
+  def is_in_progress
+     @progress != 1
   end
 
   def is_over_time
@@ -73,6 +82,6 @@ module Jenkins
            else raise "unexpected result = #{job_json_obj['result']}"
         end
 
-        JenkinsJobStatus.new(job_json_obj['displayName'], date_str, progress, job_json_obj['url']);
+        JenkinsJobStatus.new(job_name, job_json_obj['displayName'], date_str, progress, job_json_obj['url']);
    end
 end

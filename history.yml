@@ -6,3 +6,9 @@ upstream: |+
 taskservice: |+
   data: {"value":100,"startAtValue":"25 Jan 2016 at 03:45 PM","urlValue":"http://build7:8080/job/task-master-heartbeat/196/","healthStateValue":0,"healthStateChangedValue":true,"id":"taskservice","updatedAt":1453733181}
 
+jenkins_job: |+
+  data: {"value":100,"startAtValue":"26 Jan 2016 at 11:45 PM","urlValue":"https://builds.apache.org/job/CouchDB/9/","healthStateValue":0,"healthStateChangedValue":false,"id":"jenkins_job","updatedAt":1453854478}
+
+jenkins_job_set: |+
+  data: {"jobNameVal":"","startAtVal":"","urlVal":"","healthStateVal":1,"id":"jenkins_job_set","updatedAt":1453854461}
+

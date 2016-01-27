@@ -7,7 +7,7 @@ Setup.jenkins_jobs.each do |title, job|
 
   SCHEDULER.every job[:update], :first_in => rand(15)  do
     current_job_details = Jenkins.lastJobStatus(job[:server], job[:title])
-    puts "[#{Time.now.strftime("%d/%m/%Y %H:%M")}] Just fetched job = #{current_job_details}"
+    #puts "[#{Time.now.strftime("%d/%m/%Y %H:%M")}] Just fetched job = #{current_job_details}"
     state = 0
 
     if current_job_details.is_fail
