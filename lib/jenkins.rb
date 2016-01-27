@@ -27,7 +27,7 @@ class JenkinsJobStatus
   end
 
   def is_in_progress
-     @progress != 1
+     @progress != 1 &&  @progress != -1
   end
 
   def is_over_time
