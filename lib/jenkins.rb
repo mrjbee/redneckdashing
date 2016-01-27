@@ -53,7 +53,7 @@ end
 module Jenkins
    def Jenkins.lastJobStatus(server_url, job_name)
         jenkins_url = URI.parse(server_url)
-        job_url_str = "/job/#{job_name}/lastBuild/api/json?pretty=true"
+        job_url_str = "/job/#{job_name}/lastBuild/api/json"
         #puts "Requested job url = #{jenkins_url+job_url_str}"
         http = Net::HTTP.new(jenkins_url.host, jenkins_url.port)
         request = Net::HTTP::Get.new(job_url_str)
