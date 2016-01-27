@@ -1,3 +1,10 @@
+<script type='text/javascript'>
+$(function() {
+  Dashing.widget_base_dimensions = [370, 340]
+  Dashing.numColumns = 5
+});
+</script>
+
 <% content_for :title do %>Redneck Dashboard<% end %>
 <div class="gridster">
   <ul>
