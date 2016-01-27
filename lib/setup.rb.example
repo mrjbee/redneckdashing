@@ -1,16 +1,20 @@
 module Setup
    def Setup.jenkins_jobs
      {
-       'job widget id' => {
-         :server => 'http://{your build server}:8080',
-         :title => 'job title',
+       'jenkins_job' => {
+         :server => 'https://builds.apache.org',
+         :title => 'CouchDB',
          :update => '30s'
-     },
-
-    'job widget id 2' => {
-         :server => 'http://{your build server}:8080',
-         :title => 'job title 2',
+       }
+     }
+   end
+   def Setup.jenkins_job_sets
+     {
+       'jenkins_job_set' => {
+         :server => 'https://builds.apache.org',
+         :jobs => ['CouchDB','Allura-rat'],
          :update => '30s'
+       }
      }
    end
 end
