@@ -122,6 +122,10 @@ class GerritMergeRequestComment
       @resource = resource
    end
 
+   def author
+      @resource.json['author']? GerritUser.new(Resource.new(@resource.json['author'])):nil
+   end
+
    def method_missing(method, *args, &block)
       if args.size != 0 || block
          raise "Unsupported method = #{method} args = #{args} or block = #{block}"
@@ -172,6 +176,11 @@ class GerritMergeRequest
          end
       }
       @commits
+   end
+
+   def latest_comment
+      comments
+      comments[0] if comments.any?
    end
 
    def method_missing(method, *args, &block)
