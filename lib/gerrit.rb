@@ -82,6 +82,21 @@ class LazyResource
 
 end
 
+class GerritUser
+
+   def initialize(resource)
+      @resource = resource
+   end
+
+   def method_missing(method, *args, &block)
+      if args.size != 0 || block
+         raise "Unsupported args = #{args} or block = #{block}"
+      end
+      @resource.json["#{method}"]
+   end
+
+end
+
 class GerritMergeRequestCommit
 
    def initialize(server_access, mr, resource)
@@ -129,6 +144,13 @@ class GerritMergeRequest
       @commits = nil
    end
 
+   def author
+      @resource.json['author']? GerritUser.new(Resource.new(@resource.json['author'])):nil
+   end
+
+   def assignee
+      @resource.json['assignee']? GerritUser.new(Resource.new(@resource.json['assignee'])):nil
+   end
 
    def comments
       @lock_comments.synchronize{

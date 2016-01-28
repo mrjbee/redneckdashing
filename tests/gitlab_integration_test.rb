@@ -44,4 +44,18 @@ class GitlabIntegrationTest < Test::Unit::TestCase
     assert_equal @@expected_merge_request_commits_total_count, all.size
   end
 
+  def test_explore_author
+      author = @@project.open_merge_requests[0].author
+      puts " [GANGNAM ASSERT] >> Author = #{author.name}"
+      assert_not_nil author
+  end
+
+    def test_explore_assignee
+      assignee_0 = @@project.open_merge_requests[0].assignee
+      assignee_1 = @@project.open_merge_requests[1].assignee
+      puts " [GANGNAM ASSERT] >> Author = #{assignee_1.name}"
+      assert_not_nil assignee_1
+      assert_nil assignee_0
+    end
+
 end
