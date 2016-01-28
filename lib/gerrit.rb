@@ -24,6 +24,7 @@ class GerritServerAccess
          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
       response = http.request(request)
+      # puts "[HTTP] #{resource_url} response with #{response.inspect}"
       case response
          when Net::HTTPSuccess then
             JSON.parse(response.body)
@@ -179,7 +180,6 @@ class GerritMergeRequest
    end
 
    def latest_comment
-      comments
       comments[0] if comments.any?
    end
 
