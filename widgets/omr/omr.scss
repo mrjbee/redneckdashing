@@ -1,0 +1,106 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color:  #ec663c;
+$about-text-color: #ab4b2c;
+$text-color: #783720;
+
+$title-color:       rgba(255, 255, 255, 0.7);
+$moreinfo-color:    rgba(255, 255, 255, 0.7);
+
+
+.widget-omr {
+
+  background-color: $background-color;
+  vertical-align: text-top!important;
+
+  .visible{
+    display: block;
+  }
+  .not-visible{
+    display: none;
+  }
+
+  .avatar-circle {
+    border-radius: 50%;
+    width: 40px;
+    margin: 5px;
+  }
+
+  .mrCircle {
+    position: absolute;
+    margin: auto;
+    z-index: -1;
+    border-radius: 50%;
+
+    width: 36px;
+    height: 36px;
+    padding: 8px 8px 8px 8px;
+    color: $about-text-color;
+    background: #ff7445;
+    text-align: center;
+
+    font: 32px Arial, sans-serif;
+  }
+
+  .right{
+    text-align: right;
+  }
+  .left{
+    text-align: left;
+  }
+
+  .about-text{
+    color: $about-text-color;
+  }
+
+  .separator{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height:1px;
+    background: rgba(0, 0, 0, 0.07);
+  }
+
+  .space-top{
+    margin-top: 50px;
+  }
+
+  .space-bottom{
+    margin-bottom: 50px;
+  }
+  .container{
+
+    .about-text{
+      font-size: 15px;
+    }
+  }
+
+  .title {
+    color: $title-color;
+  }
+
+  .text {
+    color: $text-color;
+    font-size: 20px;
+  }
+
+  .title-text {
+    color: $title-color;
+    font-size: 22px;
+    text-align: left;
+  }
+
+  .more-info {
+    color: $moreinfo-color;
+  }
+
+  .updated-at {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+
+  &.large h3 {
+    font-size: 65px;
+  }
+
+}

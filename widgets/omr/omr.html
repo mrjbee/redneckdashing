@@ -1,0 +1,48 @@
+<div  class="mrCircle" data-bind="mrsCount"></div>
+<div class="about-text right">@project</div>
+<h1 class="title" data-bind="projectName"></h1>
+
+<div class="separator space-bottom"/>
+
+<div class="container">
+
+    <div class="about-text left">@merge request</div>
+    <h1 class="title-text" data-bind="mrText"></h1>
+
+    <img style="float: left" class="avatar-circle" data-bind-src="mrAuthorAvatar" />
+    <h1 class="about-text right">
+        <span data-bind="mrCreatedAgo"></span>
+    </h1>
+    <div>
+        <h1 class="text left">
+            <span data-bind="mrAuthor"></span>
+            <span class="about-text">author</span>
+        </h1>
+    </div>
+
+
+    <div data-bind-class="mrAssigneeVisibility">
+        <img style="float: right" class="avatar-circle" data-bind-src="mrAssigneeAvatar" />
+        <h1 class="text left">
+            <span data-bind="mrAssignee"></span>
+            <span class="about-text">assignee</span>
+        </h1>
+    </div>
+
+    <div data-bind-class="mrUpdateVisibility">
+
+        <div class="separator space-top"/>
+
+        <div class="about-text left">@last update</div>
+        <h1 class="title-text" data-bind="mrUpdateText"></h1>
+        <h1 class="about-text right">
+            <span data-bind="mrUpdatedAgo"></span>
+        </h1>
+        <h1 class="text left">
+            <span data-bind="mrUpdatedAuthor"></span>
+            <span class="about-text">author</span>
+        </h1>
+    </div>
+</div>
+
+<p class="updated-at" data-bind="updatedAtMessage"></p>

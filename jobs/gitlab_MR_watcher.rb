@@ -33,7 +33,10 @@ Setup.gitLab_open_MR.each do |title, details|
         }
         puts "[Event] name = #{project_name} and ... MRs = #{open_requests}"
       end
-
+      send_event( title,   {
+          projectName: project_name,
+          mrs: open_requests
+      })
   end
 
 end
