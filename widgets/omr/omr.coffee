@@ -15,7 +15,6 @@ class Dashing.Omr extends Dashing.Widget
   @accessor 'mrAuthorAvatar', ->
     "#{@get('current')?.author_avatar}"
 
-
   @accessor 'mrAssigneeVisibility', ->
     if @get('current')? && @get('current').assignee_name?
       "visible"
@@ -37,6 +36,9 @@ class Dashing.Omr extends Dashing.Widget
   @accessor 'mrUpdatedAuthor', ->
     "#{@get('current')?.update_author}"
 
+  @accessor 'mrUpdateAvatar', ->
+    "#{@get('current')?.update_author_avatar}"
+
 
   @accessor 'mrUpdateVisibility', ->
     if @get('current')? && @get('current').update_text?
@@ -54,12 +56,19 @@ class Dashing.Omr extends Dashing.Widget
     @currentIndex = 0
 
   startCarousel: ->
-    setInterval(@nextComment, 5000)
+    setInterval(@nextComment, 8000)
 
   nextComment: =>
     mrs = @get('mrs')
-    if mrs
+    if mrs.length != 0
+      #console.log("[OMR] There are #{mrs.length} items. Fade out for update")
       @commentElem.fadeOut =>
         @currentIndex = (@currentIndex + 1) % mrs.length
         @set 'current', mrs[@currentIndex]
+        #console.log("[OMR] Fade in for #{@currentIndex} item which is #{@get 'current'}")
         @commentElem.fadeIn()
+    else
+      #console.log("[OMR] not items hide view = #{@commentElem}")
+      @set 'current', null
+      @commentElem.fadeOut =>
+        #console.log("[OMR] do nothing")

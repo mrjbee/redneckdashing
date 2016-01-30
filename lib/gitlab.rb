@@ -219,7 +219,7 @@ class GitlabProject
    def open_merge_requests
       @lock.synchronize{
          unless @open_merge_requests
-            @open_merge_requests = @access.merge_requests(@id, 'open').map{|merge_request|
+            @open_merge_requests = @access.merge_requests(@id, 'opened').map{|merge_request|
                GitlabMergeRequest.new(@access, self, Resource.new(merge_request))
             }
          end

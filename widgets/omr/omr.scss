@@ -10,8 +10,9 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
 
 
 .widget-omr {
-
+  background-image: url("gitlab.png");
   background-color: $background-color;
+  background-size: cover;
   vertical-align: text-top!important;
 
   .visible{
@@ -23,7 +24,7 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
 
   .avatar-circle {
     border-radius: 50%;
-    width: 40px;
+    width: 45px;
     margin: 5px;
   }
 
@@ -55,8 +56,8 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
   }
 
   .separator{
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     height:1px;
     background: rgba(0, 0, 0, 0.07);
   }
