@@ -12,7 +12,9 @@ class Component
     @executed_times += 1
     @last_execution = Time.now.to_s
   end
-
+  def down
+    (@up==nil)? false: !@up
+  end
   def mark_up
     @up = true
   end
@@ -68,6 +70,10 @@ class Audit
   # @return [Array{Component}]
   def Audit::trace_components
     COMPONENT_HASH.values.map(&:to_html)
+  end
+
+  def Audit::down_components
+    COMPONENT_HASH.values.find_all(&:down)
   end
 
 end

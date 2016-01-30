@@ -5,6 +5,7 @@ $background-color:  #ec663c;
 
 $title-color:       rgba(255, 255, 255, 0.7);
 $moreinfo-color:    rgba(255, 255, 255, 0.7);
+$about-text-color: #f5f5f5;
 
 // ----------------------------------------------------------------------------
 // Widget-text styles
@@ -12,6 +13,26 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
 .widget-text {
 
   background-color: $background-color;
+  .visible{
+    display: block;
+  }
+  .not-visible{
+    display: none;
+  }
+  .circle {
+    margin: auto;
+    z-index: -1;
+    border-radius: 50%;
+
+    width: 36px;
+    height: 36px;
+    padding: 8px 8px 8px 8px;
+    color: $about-text-color;
+    background: #ff2e2a;
+    text-align: center;
+
+    font: 32px Arial, sans-serif;
+  }
 
   .title {
     color: $title-color;

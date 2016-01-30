@@ -20,7 +20,8 @@ module SchedulerUtils
         next_schedule_time = fallback_time
       ensure
         # ensure that this code always runs, no matter what
-        puts ("[job: #{title}] next execution in #{next_schedule_time}")
+        Audit::trace(title, "next execution in #{next_schedule_time}")
+        #puts ("[job: #{title}] next execution in #{next_schedule_time}")
         scheduler.in next_schedule_time + rand(5), next_schedule
       end
     }

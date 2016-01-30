@@ -1,7 +1,7 @@
 <h1 class="title" data-bind="title"></h1>
 
 <h3 data-bind="text"></h3>
-
-<p class="more-info" data-bind="moreinfo"></p>
-
-<p class="updated-at" data-bind="updatedAtMessage"></p>
+<div data-bind-class="broken_job_visible">
+    <h3 class="more-info">Broken Jobs</h3>
+    <div  class="more-info circle" data-bind="brokenJobsCount"></div>
+</div>
