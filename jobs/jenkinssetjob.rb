@@ -9,7 +9,7 @@ Setup.jenkins_job_sets.each do |title, jobset|
       Jenkins.lastJobStatus(jobset[:server], jobTitle)
     }
 
-    running_job = job_statuses.detect{|job| job.is_in_progress}
+    running_job = job_statuses.find{|job| job.is_in_progress}
     if running_job
       send_event( title,   {
         jobNameVal: running_job.job_full_name,
@@ -17,7 +17,7 @@ Setup.jenkins_job_sets.each do |title, jobset|
         urlVal: running_job.url,
         healthStateVal: 0})
     else
-      failed_job = job_statuses.detect{|job| job.is_fail}
+      failed_job = job_statuses.find{|job| job.is_fail}
       if failed_job
         send_event( title,   {
           jobNameVal: failed_job.job_full_name,

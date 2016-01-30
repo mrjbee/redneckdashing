@@ -1,3 +1,5 @@
+require_relative 'audit'
+
 module SchedulerUtils
 
   def SchedulerUtils.smart_schedule (scheduler, title, fallback_time, action)
@@ -6,17 +8,21 @@ module SchedulerUtils
     _re_scheduler_action = lambda { |next_schedule|
       begin
         # something which might raise an exception
-        puts ("[job: #{title}] going to start execution")
+        # puts ("[job: #{title}] going to start execution")
+        Audit::trace_execution title
         next_schedule_time = action.call
+        Audit::trace_up title, 'Executed successfully'
       rescue => error
         # code that deals with some exception
         puts ("[job: #{title}] !!! ERROR during executing. Reason = #{error.message}")
         puts error.backtrace
+        Audit::trace_down title, "Reason = #{error.message}"
         next_schedule_time = fallback_time
       ensure
         # ensure that this code always runs, no matter what
-        puts ("[job: #{title}] next execution in #{next_schedule_time}")
-        scheduler.in next_schedule_time+ rand(5), next_schedule
+        Audit::trace(title, "next execution in #{next_schedule_time}")
+        #puts ("[job: #{title}] next execution in #{next_schedule_time}")
+        scheduler.in next_schedule_time + rand(5), next_schedule
       end
     }
 
