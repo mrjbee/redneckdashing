@@ -5,7 +5,7 @@ Setup.jenkins_jobs.each do |title, job|
 
   last_job_health_state = -100
 
-  SCHEDULER.every job[:update], :first_in => rand(15)  do
+  SchedulerUtils.smart_schedule SCHEDULER, title, 60, lambda {
     current_job_details = Jenkins.lastJobStatus(job[:server], job[:title])
     #puts "[#{Time.now.strftime("%d/%m/%Y %H:%M")}] Just fetched job = #{current_job_details}"
     state = 0
@@ -19,11 +19,14 @@ Setup.jenkins_jobs.each do |title, job|
     end
 
     send_event( title,   {
-      value: current_job_details.progress_human,
-      startAtValue: current_job_details.start_at,
-      urlValue: current_job_details.url,
-      healthStateValue: state,
-      healthStateChangedValue: last_job_health_state != state })
+        value: current_job_details.progress_human,
+        startAtValue: current_job_details.start_at,
+        urlValue: current_job_details.url,
+        healthStateValue: state,
+        healthStateChangedValue: last_job_health_state != state })
     last_job_health_state = state
-  end
+
+    current_job_details.is_in_progress ? job[:update_while_progress]:job[:update]
+  }
+
 end
