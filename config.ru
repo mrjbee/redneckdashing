@@ -20,7 +20,7 @@ end
 #Registrate service audit endpoint
 use Sinatra do
   get('/audit') {
-    Audit::trace
+    Audit::trace_components.join '</br>'
   }
 end
 
