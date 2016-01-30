@@ -1,4 +1,5 @@
 require 'dashing'
+require_relative 'lib/audit'
 
 configure do
   set :auth_token, 'YOUR_AUTH_TOKEN'
@@ -9,10 +10,18 @@ configure do
      # This method is run before accessing any resource.
     end
   end
+
 end
 
 map Sinatra::Application.assets_prefix do
   run Sinatra::Application.sprockets
+end
+
+#Registrate service audit endpoint
+use Sinatra do
+  get('/audit') {
+    Audit::trace
+  }
 end
 
 run Sinatra::Application
