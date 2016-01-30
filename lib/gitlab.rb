@@ -1,8 +1,10 @@
+# Use following link to fing out projects (with ids)
+# https://gitlab.com/api/v3/projects?private_token=QVy1PB7sTxfy4pqfZM1U
 require 'net/http'
 require 'json'
 require 'openssl'
 
-class GerritServerAccess
+class GitlabServerAccess
 
    def initialize(url, user_auth)
       @url = URI.parse(url)
@@ -42,7 +44,11 @@ class GerritServerAccess
    end
 
    def merge_request_comments(project_id, merge_request_id)
-      _get("/projects/#{project_id}/merge_request/#{merge_request_id}/comments")
+      _get("/projects/#{project_id}/merge_requests/#{merge_request_id}/notes")
+   end
+
+   def merge_request_comment(project_id, merge_request_id, comment_id)
+      _get("/projects/#{project_id}/merge_request/#{merge_request_id}/notes/#{comment_id}")
    end
 
    def merge_request_commits(project_id, merge_request_id)
@@ -72,7 +78,7 @@ class LazyResource
    def json
       unless @json
          @lock.synchronize{
-            #Isn DCL working for Ruby?
+            #If DCL working for Ruby?
             unless @json
                @json = @getter_proc.call
             end
@@ -83,7 +89,7 @@ class LazyResource
 
 end
 
-class GerritUser
+class GitlabUser
 
    def initialize(resource)
       @resource = resource
@@ -98,7 +104,7 @@ class GerritUser
 
 end
 
-class GerritMergeRequestCommit
+class GitlabMergeRequestCommit
 
    def initialize(server_access, mr, resource)
       @server_access = server_access
@@ -115,7 +121,7 @@ class GerritMergeRequestCommit
 
 end
 
-class GerritMergeRequestComment
+class GitlabComment
 
    def initialize(server_access, mr, resource)
       @server_access = server_access
@@ -124,7 +130,7 @@ class GerritMergeRequestComment
    end
 
    def author
-      @resource.json['author']? GerritUser.new(Resource.new(@resource.json['author'])):nil
+      @resource.json['author']? GitlabUser.new(Resource.new(@resource.json['author'])):nil
    end
 
    def method_missing(method, *args, &block)
@@ -133,11 +139,14 @@ class GerritMergeRequestComment
       end
       @resource.json["#{method}"]
    end
+   def to_json
+      @resource.json
+   end
 
 end
 
 
-class GerritMergeRequest
+class GitlabMergeRequest
 
    def initialize(server_access, project, resource)
       @access = server_access
@@ -150,18 +159,20 @@ class GerritMergeRequest
    end
 
    def author
-      @resource.json['author']? GerritUser.new(Resource.new(@resource.json['author'])):nil
+      @resource.json['author']? GitlabUser.new(Resource.new(@resource.json['author'])):nil
    end
 
    def assignee
-      @resource.json['assignee']? GerritUser.new(Resource.new(@resource.json['assignee'])):nil
+      @resource.json['assignee']? GitlabUser.new(Resource.new(@resource.json['assignee'])):nil
    end
 
    def comments
       @lock_comments.synchronize{
          unless @comments
-            @comments = @access.merge_request_comments(@project.id, id).map{|merge_request_commit|
-               GerritMergeRequestComment.new(@access, self, Resource.new(merge_request_commit))
+            @comments = @access.merge_request_comments(@project.id, id)
+            .sort {|left, right| (Gitlab.date_iso_8601_to_seconds left['created_at']) <=> (Gitlab.date_iso_8601_to_seconds right['created_at'])}
+            .map{|merge_request_commit|
+               GitlabComment.new(@access, self, Resource.new(merge_request_commit))
             }
          end
       }
@@ -172,7 +183,7 @@ class GerritMergeRequest
       @lock_commits.synchronize{
          unless @commits
             @commits = @access.merge_request_commits(@project.id, id).map{|commit|
-               GerritMergeRequestCommit.new(@access, self, Resource.new(commit))
+               GitlabMergeRequestCommit.new(@access, self, Resource.new(commit))
             }
          end
       }
@@ -180,7 +191,7 @@ class GerritMergeRequest
    end
 
    def latest_comment
-      comments[0] if comments.any?
+      comments.last if comments.any?
    end
 
    def method_missing(method, *args, &block)
@@ -192,9 +203,9 @@ class GerritMergeRequest
 
 end
 
-class GerritProject
+class GitlabProject
 
-   # @param server_access [GerritServerAccess]
+   # @param server_access [GitlabServerAccess]
    def initialize (server_access, project_id)
       @access = server_access
       @id = project_id
@@ -210,8 +221,8 @@ class GerritProject
    def open_merge_requests
       @lock.synchronize{
          unless @open_merge_requests
-            @open_merge_requests = @access.merge_requests(@id, 'open').map{|merge_request|
-               GerritMergeRequest.new(@access, self, Resource.new(merge_request))
+            @open_merge_requests = @access.merge_requests(@id, 'opened').map{|merge_request|
+               GitlabMergeRequest.new(@access, self, Resource.new(merge_request))
             }
          end
       }
@@ -227,11 +238,54 @@ class GerritProject
 end
 
 
-module Gerrit
-   def Gerrit.project(project_id, server_url, user_auth )
-      access = GerritServerAccess.new(server_url, user_auth)
+module Gitlab
+   #@return GitlabProject
+   def Gitlab.project(project_id, server_url, user_auth )
+      access = GitlabServerAccess.new(server_url, user_auth)
       access.has_access
-      project = GerritProject.new(access, project_id)
+      project = GitlabProject.new(access, project_id)
       return project
+   end
+
+   def Gitlab.date_iso_8601_to_seconds(date_string)
+      Time.iso8601(date_string).to_i
+   end
+
+   def Gitlab.date_iso_8601_to_ago_date(date_string)
+      date_time = Time.iso8601(date_string)
+      seconds_ago = Time.now.to_i - date_time.to_i
+
+      days_ago = seconds_ago / (60 * 60 * 24)
+      seconds_ago -= days_ago * (60 * 60 * 24)
+      hours_ago = seconds_ago/(60 * 60)
+      seconds_ago -= hours_ago * (60 * 60)
+      minutes_ago = seconds_ago/60
+      seconds_ago -= minutes_ago * 60
+
+      if days_ago > 0
+         "#{days_ago} day(s) ago"
+         return case days_ago
+                   when 1
+                      'yesterday'
+                   when 2
+                      'the day before'
+                   else
+                     "#{days_ago} days ago"
+                end
+      end
+
+      if hours_ago > 0
+         return "#{hours_ago} hr ago"
+      end
+
+      if minutes_ago > 0
+         return case minutes_ago
+                   when 0..10
+                      'few minutes ago'
+                   else
+                      "#{minutes_ago} min(s) ago"
+                end
+      end
+      return 'few seconds ago'
    end
 end

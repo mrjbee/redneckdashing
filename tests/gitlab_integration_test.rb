@@ -1,5 +1,5 @@
 require 'test/unit'
-require_relative '../lib/gerrit'
+require_relative '../lib/gitlab'
 
 class GitlabIntegrationTest < Test::Unit::TestCase
 
@@ -7,19 +7,19 @@ class GitlabIntegrationTest < Test::Unit::TestCase
   # with real user, repo and merge commits
 
     def self.startup
-      @@private_key = 'EauLbCh3Y-es32QGfxAK'
+      @@private_key = 'ypVMW57neff_QFN1zqkR'
       @@server_url = 'https://gitlab.com'
 
       # Use following url for discover PROJECT ids
       # https://gitlab.com/api/v3/projects/owned?private_token=EauLbCh3Y-es32QGfxAK
 
       @@project_id = 785506
-      @@expected_project_name = "gitlab_playground"
+      @@expected_project_name = "Gitlab Playground"
       @@expected_merge_request_count = 2
-      @@expected_merge_request_comments_total_count = 4
-      @@expected_merge_request_commits_total_count = 2
+      @@expected_merge_request_comments_total_count = 6
+      @@expected_merge_request_commits_total_count = 3
 
-      @@project = Gerrit.project(@@project_id, @@server_url, @@private_key)
+      @@project = Gitlab.project(@@project_id, @@server_url, @@private_key)
     end
 
 
@@ -34,7 +34,7 @@ class GitlabIntegrationTest < Test::Unit::TestCase
 
   def test_explore_open_merge_requests_comments
     all = @@project.open_merge_requests.inject([]){|sum, mr| sum + mr.comments}
-    puts " [GANGNAM ASSERT] >> Merge request comment notes = #{all.map{|mr| mr.note }}"
+    puts " [GANGNAM ASSERT] >> Merge request comment notes = #{all.map{|mr| mr.to_json }}"
     assert_equal @@expected_merge_request_comments_total_count, all.size
   end
 
@@ -59,7 +59,7 @@ class GitlabIntegrationTest < Test::Unit::TestCase
   end
 
   def test_latest_mr_comment
-    comment = @@project.open_merge_requests[0].latest_comment
+    comment = @@project.open_merge_requests[0].latest_comment.to_json
     puts " [GANGNAM ASSERT] >> Latest comment = #{comment}"
     assert_not_nil comment
   end
