@@ -27,3 +27,4 @@ _TODO_ more details
 
 ## Screencast
 ![Alt text](/demoscreen.png?raw=true "Redneck Example Dashboard")
+![Alt text](/demoscreen2.png?raw=true "Redneck Example Dashboard 2")
