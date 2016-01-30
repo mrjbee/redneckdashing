@@ -1,3 +1,5 @@
+# Use following link to fing out projects (with ids)
+# https://gitlab.com/api/v3/projects?private_token=QVy1PB7sTxfy4pqfZM1U
 require 'net/http'
 require 'json'
 require 'openssl'
