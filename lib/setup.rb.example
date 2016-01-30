@@ -1,20 +1,41 @@
 module Setup
-   def Setup.jenkins_jobs
-     {
-       'jenkins_job' => {
-         :server => 'https://builds.apache.org',
-         :title => 'CouchDB',
-         :update => '30s'
-       }
-     }
-   end
-   def Setup.jenkins_job_sets
-     {
-       'jenkins_job_set' => {
-         :server => 'https://builds.apache.org',
-         :jobs => ['CouchDB','Allura-rat'],
-         :update => '30s'
-       }
-     }
-   end
+
+  FEATURE_JENKINS_BUILD = true
+  FEATURE_JENKINS_BUILD_SET = true
+  FEATURE_GITlAB_OPEN_MERGE_REQUESTS = true
+
+  def Setup._feature_toggle_check(feature_toggle, config)
+    feature_toggle ? config : {}
+  end
+
+  def Setup.gitLab_open_MR
+    _feature_toggle_check FEATURE_GITlAB_OPEN_MERGE_REQUESTS, {
+        'gitlab' => {
+            :server => 'https://gitlab.com',
+            :user => 'ypVMW57neff_QFN1zqkR',
+            :projects => [785506, 778249],
+            :update_per_mr_seconds => 30
+        }
+    }
+  end
+
+  def Setup.jenkins_jobs
+    _feature_toggle_check FEATURE_JENKINS_BUILD, {
+        'apache_couch_db_job' => {
+            :server => 'https://builds.apache.org',
+            :title => 'CouchDB',
+            :update => '30s'
+        }
+    }
+  end
+
+  def Setup.jenkins_job_sets
+    _feature_toggle_check FEATURE_JENKINS_BUILD_SET, {
+        'apache_job_set' => {
+            :server => 'https://builds.apache.org',
+            :jobs => ['CouchDB', 'Allura-rat'],
+            :update => '30s'
+        }
+    }
+  end
 end

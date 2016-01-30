@@ -1,12 +1,13 @@
 require_relative '../lib/gitlab.rb'
 require_relative '../lib/setup.rb'
+require_relative '../lib/scheduler_utils'
 
 
 Setup.gitLab_open_MR.each do |title, details|
 
   project_index = 0
 
-  _action = lambda {
+  SchedulerUtils.smart_schedule SCHEDULER, title, 60, lambda {
     project_index = details[:projects].size > project_index ? project_index:0
     gerrit_project = Gitlab.project(details[:projects][project_index], details[:server], details[:user])
     project_index += 1
@@ -27,7 +28,7 @@ Setup.gitLab_open_MR.each do |title, details|
             update_author_avatar: (mr.latest_comment.author.avatar_url if mr.latest_comment)
         }
     }
-    puts "[Event] name = #{project_name} MRs = #{open_requests}"
+
     send_event( title,   {
         projectName: project_name,
         mrs: open_requests
@@ -35,27 +36,5 @@ Setup.gitLab_open_MR.each do |title, details|
 
     (mrs.size==0?1:mrs.size) * details[:update_per_mr_seconds]
   }
-
-
-  # define call and schedule
-  _re_scheduler_action = lambda { |next_schedule|
-      begin
-        # something which might raise an exception
-        puts ('Start executing')
-        next_schedule_time = _action.call
-      rescue => error
-        # code that deals with some exception
-        puts ("!!! ERROR during executing: #{error.message}")
-        puts error.backtrace
-        next_schedule_time = 60
-      ensure
-        # ensure that this code always runs, no matter what
-        puts ("Requested next in #{next_schedule_time} sec for #{self}")
-        SCHEDULER.in next_schedule_time, next_schedule
-      end
-  }
-
-  #call recursive if everything is fine
-  _re_scheduler_action.call _re_scheduler_action
 
 end
