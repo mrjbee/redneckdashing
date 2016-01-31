@@ -12,7 +12,7 @@ module Setup
     _feature_toggle_check FEATURE_GITlAB_OPEN_MERGE_REQUESTS, {
         'gitlab' => {
             :server => 'https://gitlab.com',
-            :user => 'ypVMW57neff_QFN1zqkR',
+            :user => 'Nrcq_osny8cW8ZdgFst3',
             :projects => [785506, 778249],
             :update_per_mr_seconds => 30
         }
@@ -24,7 +24,8 @@ module Setup
         'apache_couch_db_job' => {
             :server => 'https://builds.apache.org',
             :title => 'CouchDB',
-            :update => '30s'
+            :update => 30,
+            :update_while_progress => 10
         }
     }
   end
@@ -34,7 +35,7 @@ module Setup
         'apache_job_set' => {
             :server => 'https://builds.apache.org',
             :jobs => ['CouchDB', 'Allura-rat'],
-            :update => '30s'
+            :update => 30
         }
     }
   end
