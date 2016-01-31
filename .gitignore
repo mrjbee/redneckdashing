@@ -2,3 +2,4 @@ Gemfile.lock
 .idea/
 lib/setup.rb
 history.yml
+workout/
