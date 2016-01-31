@@ -31,6 +31,7 @@ Setup.gitLab_open_MR.each do |title, details|
 
     send_event( title,   {
         projectName: project_name,
+        projectUrl: gerrit_project.web_url,
         mrs: open_requests
     })
 

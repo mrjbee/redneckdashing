@@ -15,6 +15,10 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
   background-size: cover;
   vertical-align: text-top!important;
 
+  .caption {
+    position: relative;
+  }
+
   .visible{
     display: block;
   }
@@ -31,7 +35,6 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
   .mrCircle {
     position: absolute;
     margin: auto;
-    z-index: -1;
     border-radius: 50%;
 
     width: 36px;
