@@ -56,7 +56,7 @@ class Dashing.Omr extends Dashing.Widget
     @currentIndex = 0
 
   startCarousel: ->
-    setInterval(@nextComment, 8000)
+    setInterval(@nextComment, 5000)
 
   nextComment: =>
     mrs = @get('mrs')
