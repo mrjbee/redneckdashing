@@ -58,7 +58,7 @@ Setup.gitLab_open_MR.each do |title, details|
         mrs: open_requests
     })
 
-    (mrs.size==0?1:mrs.size) * (Utils.safe details[:delay_update_ui_per_mr_sec], 120)
+    (mrs.size==0?1:mrs.size) * (Utils.safe details[:delay_update_ui_per_mr_sec], 10)
   }
 
 end
