@@ -1,5 +1,7 @@
 class Dashing.Omr extends Dashing.Widget
 
+  current_timer_id = -1
+
   @accessor 'mrsCount', ->
     "#{@get('mrs').length}"
 
@@ -53,22 +55,30 @@ class Dashing.Omr extends Dashing.Widget
     @startCarousel()
 
   onData: (data) ->
+    console.log("onDatat: Timer id = #{current_timer_id}")
+    clearInterval(current_timer_id);
     @currentIndex = 0
+    @nextComment()
+    @startCarousel()
+
 
   startCarousel: ->
-    setInterval(@nextComment, 5000)
+    current_timer_id = setInterval(@nextComment, 5000)
+    console.log("startCarousel: Timer id = #{current_timer_id}")
 
   nextComment: =>
     mrs = @get('mrs')
     if mrs.length != 0
-      #console.log("[OMR] There are #{mrs.length} items. Fade out for update")
-      @commentElem.fadeOut =>
-        @currentIndex = (@currentIndex + 1) % mrs.length
+      if mrs.length != 1
+        @commentElem.fadeOut =>
+          @currentIndex = (@currentIndex + 1) % mrs.length
+          @set 'current', mrs[@currentIndex]
+          #console.log("[OMR] Fade in for #{@currentIndex} item which is #{@get 'current'}")
+          @commentElem.fadeIn()
+      else
+        @currentIndex = 0
         @set 'current', mrs[@currentIndex]
-        #console.log("[OMR] Fade in for #{@currentIndex} item which is #{@get 'current'}")
         @commentElem.fadeIn()
     else
-      #console.log("[OMR] not items hide view = #{@commentElem}")
-      @set 'current', null
-      @commentElem.fadeOut =>
-        #console.log("[OMR] do nothing")
+      @commentElem.fadeOut() =>
+        @set 'current', null
