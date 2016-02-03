@@ -19,10 +19,11 @@ module SchedulerUtils
         Audit::trace_down title, "Reason = #{error.message}"
         next_schedule_time = fallback_time
       ensure
+        next_schedule_time += rand(5) if next_schedule_time > 30
         # ensure that this code always runs, no matter what
         Audit::trace(title, "next execution in #{next_schedule_time}")
         #puts ("[job: #{title}] next execution in #{next_schedule_time}")
-        scheduler.in next_schedule_time + rand(5), next_schedule
+        scheduler.in next_schedule_time, next_schedule
       end
     }
 

@@ -14,7 +14,8 @@ module Setup
             :server => 'https://gitlab.com',
             :user => 'Nrcq_osny8cW8ZdgFst3',
             :projects => [785506, 778249],
-            :update_per_mr_seconds => 30
+            :delay_fetch_per_project_sec => 30,
+            :delay_update_ui_per_mr_sec => 10,
         }
     }
   end

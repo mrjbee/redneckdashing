@@ -1,15 +1,38 @@
 require_relative '../lib/gitlab.rb'
 require_relative '../lib/setup.rb'
 require_relative '../lib/scheduler_utils'
+require_relative '../lib/utils'
+require_relative '../lib/audit'
 
+PROJECT_CACHE = Utils::synchronized_hash
 
 Setup.gitLab_open_MR.each do |title, details|
+
+  project_to_cache_index = 0
+
+  SchedulerUtils.smart_schedule SCHEDULER, title+'_cahce_update', 60, lambda {
+    project_id = details[:projects][project_to_cache_index]
+    Audit::trace title+'_cahce_update', "Update cache for #{project_id}"
+    project = Gitlab.project(project_id, details[:server], details[:user])
+    PROJECT_CACHE.put project_id, project
+
+    project_to_cache_index += 1
+    project_to_cache_index = details[:projects].size > project_to_cache_index ? project_to_cache_index:0
+    project_id = details[:projects][project_to_cache_index]
+
+    return 5 if PROJECT_CACHE.get(project_id) == nil
+    Utils.safe details[:delay_fetch_per_project_sec], 120
+  }
 
   project_index = 0
 
   SchedulerUtils.smart_schedule SCHEDULER, title, 60, lambda {
     project_index = details[:projects].size > project_index ? project_index:0
-    gerrit_project = Gitlab.project(details[:projects][project_index], details[:server], details[:user])
+    project_id = details[:projects][project_index]
+    gerrit_project = PROJECT_CACHE.get project_id
+    #wait for 5 seconds before cache update
+    return 5 if gerrit_project == nil
+
     project_index += 1
     mrs = gerrit_project.open_merge_requests
 
@@ -35,7 +58,7 @@ Setup.gitLab_open_MR.each do |title, details|
         mrs: open_requests
     })
 
-    (mrs.size==0?1:mrs.size) * details[:update_per_mr_seconds]
+    (mrs.size==0?1:mrs.size) * (Utils.safe details[:delay_update_ui_per_mr_sec], 10)
   }
 
 end
