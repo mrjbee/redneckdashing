@@ -1,6 +1,6 @@
 require 'dashing'
 #FIXME no time to find out cause of LoadError: cannot infer basepath
-require '/opt/redneckdash/lib/audit'
+require '/opt/redneckdashing/lib/audit'
 
 configure do
   set :auth_token, 'YOUR_AUTH_TOKEN'
