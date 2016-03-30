@@ -3,7 +3,7 @@ require 'dashing'
 require '/opt/redneckdashing/lib/audit'
 
 configure do
-  set :auth_token, 'YOUR_AUTH_TOKEN'
+  set :auth_token, 'MY_AUTH_TOKEN'
 
   helpers do
     def protected!

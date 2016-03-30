@@ -1,5 +1,7 @@
 Gemfile.lock
-.idea/
 lib/setup.rb
+.idea/
 history.yml
 workout/
+*.iml
+out/*
