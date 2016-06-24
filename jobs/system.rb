@@ -9,8 +9,8 @@ SchedulerUtils.smart_schedule SCHEDULER, "system_job", 60, lambda {
       current: free_value,
       moreinfo: "Used #{used_value} GB"})
 
-  free_value = `df| grep /dev/sda6 |awk '{print $4}'`.to_f
-  used_value = `df| grep /dev/sda6 |awk '{print $3}'`.to_f
+  free_value = `df| grep /dev/sda5 |awk '{print $4}'`.to_f
+  used_value = `df| grep /dev/sda5 |awk '{print $3}'`.to_f
   free_value = (free_value/1024/1024).round(1)
   used_value = (used_value/1024/1024).round(1)
   send_event( "space",{
